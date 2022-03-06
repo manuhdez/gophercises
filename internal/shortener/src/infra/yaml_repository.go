@@ -7,13 +7,11 @@ import (
 	"os"
 )
 
-type YamlRedirection struct {
-	From string `yaml:"from"`
-	To   string `yaml:"to"`
-}
-
 type YamlData struct {
-	Redirects []YamlRedirection `yaml:"redirects"`
+	Redirects []struct {
+		From string `yaml:"from"`
+		To   string `yaml:"to"`
+	} `yaml:"redirects"`
 }
 
 type YamlRedirectRepository struct {
@@ -38,9 +36,9 @@ func (YamlRedirectRepository) FindByShortcode(shortcode string) (domain.Redirect
 }
 
 func readYamlFile() (map[string]domain.Redirection, error) {
-	file, err := os.ReadFile("internal/shortener/data/redirects.yaml")
+	file, err := os.ReadFile("data/redirects.yaml")
 	if err != nil {
-		fmt.Println("error opening yaml file")
+		fmt.Println("error opening yaml file: ", err)
 		return make(map[string]domain.Redirection), err
 	}
 

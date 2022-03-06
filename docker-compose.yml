@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  shortener:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        project_dir: ./cmd/shortener
+        data_dir: ./internal/shortener/data
+    environment:
+      - PORT=3001
+    ports:
+      - "8081:3001"
+    restart: on-failure
+    volumes:
+      - shortener_vol:/usr/src/shortener
+    networks:
+      - gophercises_net
+
+volumes:
+  shortener_vol:
+
+networks:
+  gophercises_net:
+    driver: bridge

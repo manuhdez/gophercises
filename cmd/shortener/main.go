@@ -7,6 +7,7 @@ import (
 	"github.com/manuhdez/gophercises/internal/shortener/src/infra"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -17,6 +18,11 @@ func main() {
 	mux.Handle("/status", handlers.GetStatusHandler())
 	mux.Handle("/", handlers.GetRedirectionHandler(finder))
 
-	fmt.Println("Server listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	var PORT string
+	if PORT = os.Getenv("PORT"); PORT == "" {
+		PORT = "8080"
+	}
+
+	fmt.Printf("Server listening on port %s\n", PORT)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", PORT), mux))
 }
