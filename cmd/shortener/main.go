@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	repository := infra.NewRedirectionRepository()
+	repository := infra.NewYamlRedirectRepository()
 	finder := application.NewRedirectionFinder(repository)
 
 	mux := http.NewServeMux()

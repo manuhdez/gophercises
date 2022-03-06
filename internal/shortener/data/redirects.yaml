@@ -1,0 +1,19 @@
+redirects:
+  -
+    from: g
+    to: https://github.com
+  -
+    from: y
+    to: https://youtube.com
+  -
+    from: t
+    to: https://twitter.com
+  -
+    from: f
+    to: https://facebook.com
+  -
+    from: i
+    to: https://instagram.com
+  -
+    from: p
+    to: https://pinterest.com
