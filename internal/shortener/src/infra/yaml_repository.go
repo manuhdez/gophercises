@@ -7,11 +7,13 @@ import (
 	"os"
 )
 
-type T struct {
-	Redirects []struct {
-		From string `yaml:"from"`
-		To   string `yaml:"to"`
-	} `yaml:"redirects"`
+type YamlRedirection struct {
+	From string `yaml:"from"`
+	To   string `yaml:"to"`
+}
+
+type YamlData struct {
+	Redirects []YamlRedirection `yaml:"redirects"`
 }
 
 type YamlRedirectRepository struct {
@@ -43,7 +45,7 @@ func readYamlFile() (map[string]domain.Redirection, error) {
 	}
 
 	// parse yaml file
-	var t T
+	var t YamlData
 	err = yaml.Unmarshal(file, &t)
 	if err != nil {
 		fmt.Printf("error reading yaml file: %e", err)
@@ -53,7 +55,7 @@ func readYamlFile() (map[string]domain.Redirection, error) {
 	return parseRedirectsToMap(t), nil
 }
 
-func parseRedirectsToMap(redirects T) map[string]domain.Redirection {
+func parseRedirectsToMap(redirects YamlData) map[string]domain.Redirection {
 	redirectMap := make(map[string]domain.Redirection)
 	for _, r := range redirects.Redirects {
 		redirectMap[r.From] = domain.NewRedirection(r.From, r.To)
