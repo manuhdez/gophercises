@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
+	"time"
+
 	"github.com/manuhdez/gophercises/internal/quiz/domain/game"
 	"github.com/manuhdez/gophercises/internal/quiz/infra"
-	"time"
 )
 
 const (

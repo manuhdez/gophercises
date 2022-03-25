@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  shortener_test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+      args:
+        project: ./internal/shortener/...
+    volumes:
+      - testing_vol:/usr/src/shortener
+    networks:
+      - monorepo_net
+
+volumes:
+  testing_vol:
+
+networks:
+  monorepo_net:
+    driver: bridge
