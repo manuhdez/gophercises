@@ -29,7 +29,7 @@ func traverse(node *html.Node) []Link {
 
 	if node.Type == html.ElementNode && node.Data == "a" {
 		l := node.FirstChild
-		text := getLinkText(l)
+		text := getNodeText(l)
 
 		for _, attr := range node.Attr {
 			if attr.Key == "href" {
@@ -45,7 +45,7 @@ func traverse(node *html.Node) []Link {
 	return links
 }
 
-func getLinkText(n *html.Node) string {
+func getNodeText(n *html.Node) string {
 	text := html.EscapeString(n.Data)
 
 	next := n.NextSibling
@@ -53,19 +53,15 @@ func getLinkText(n *html.Node) string {
 		if next == nil {
 			break
 		}
-
-		var extra string
-		if next.FirstChild != nil && next.FirstChild.Type == html.TextNode {
-			extra += html.EscapeString(next.FirstChild.Data)
-		} else if next.Type == html.TextNode {
-			extra += html.EscapeString(next.Data)
+		if next.Type == html.ElementNode && next.FirstChild != nil {
+			text += getNodeText(next.FirstChild)
 		}
-		text += extra
-
+		if next.Type == html.TextNode {
+			text += html.EscapeString(next.Data)
+		}
 		if next.NextSibling == nil {
 			break
 		}
-
 		next = next.NextSibling
 	}
 
